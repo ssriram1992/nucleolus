@@ -7,11 +7,6 @@ import charFun1
 def toleq(a:float, b:float, tol:float=1e-6) -> bool:
     return abs(a-b)<=tol
 
-# %% Raw Data
-charFun = charFun1.charFun
-n = 4 # Number of players
-N = [i for i in range(n)] # The players
-verbose = True
 # %%
 def nucleolus(N, charFun, infoObj=None, verbose=False):
     n = len(N)
@@ -82,19 +77,14 @@ def nucleolus(N, charFun, infoObj=None, verbose=False):
 # %%
 if __name__ == "__main__":
     import numpy as np
+    charFun = charFun1.charFun
+    
+    n = 10 # Number of players
+    N = [i for i in range(n)] # The players
+    verbose = False
+
     infoObj = charFun1.addnlInfo()
     infoObj.v = {i: int((i*i-20*i +100)/10)+ np.random.randint(0, 5) for i in range(20)}
     infoObj.w = {i: int(((i%10)*(i%10)-6*(i%10))/2) + np.random.randint(0, 10) for i in range(20)}
 
-    print(nucleolus(N, charFun, infoObj, False))
-
-# %%
-# a = [(i+1) for i in range(20)]
-# selectors = (not((i%3 ==0) or (i%4==0)) for i in a)
-# print(a, selectors)
-# for i,s in enumerate(itertools.compress(a, selectors)):
-#     print(s)
-#     a[i] = s
-# del a[i+1:]
-# print(a)
-# %%
+    print(nucleolus(N, charFun, infoObj, verbose))
