@@ -7,13 +7,16 @@ import charFun1
 def toleq(a:float, b:float, tol:float=1e-6) -> bool:
     return abs(a-b)<=tol
 
+
+
 # %%
-def nucleolus(N, charFun, infoObj=None, verbose=False):
+def nucleolusFullDetail(N, charFun, infoObj=None, verbose:bool=False):
     n = len(N)
     #  Data PreProcess
     subsets = [S for i in range(n-1) for S in itertools.combinations(N, i+1) ]
     frozen = {}
     nucl = {pp:0 for pp in N}
+    thetas = []
     # The main loop
     while True:
         completed = True
@@ -37,6 +40,7 @@ def nucleolus(N, charFun, infoObj=None, verbose=False):
         if not completed:
             M1.optimize()
             theta = M1.ObjVal
+            thetas.append(theta)
             for pp in N:
                 nucl[pp] = x[pp].X
         else:
@@ -73,7 +77,12 @@ def nucleolus(N, charFun, infoObj=None, verbose=False):
         if verbose:
             print(frozen)
             print('----')
-    return nucl
+    return nucl, frozen,thetas
+
+def nucleolus(N, charFun, infoObj=None, verbose:bool=False)->dict:
+    ans, _, _ = nucleolusFullDetail(N, charFun, infoObj, verbose)
+    return ans
+
 # %%
 if __name__ == "__main__":
     import numpy as np
